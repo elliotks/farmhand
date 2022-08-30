@@ -99,7 +99,7 @@ import {
   SERVER_ERROR,
   UPDATE_AVAILABLE,
 } from '../../strings'
-import { endpoints } from '../../config'
+import { endpoints, rtcConfig } from '../../config'
 
 import { getInventoryQuantities } from './helpers/getInventoryQuantities'
 import FarmhandContext from './Farmhand.context'
@@ -889,7 +889,13 @@ export default class Farmhand extends Component {
 
       this.setState({
         activePlayers,
-        peerRoom: joinRoom({ appId: process.env.REACT_APP_NAME }, room),
+        peerRoom: joinRoom(
+          {
+            appId: process.env.REACT_APP_NAME,
+            rtcConfig,
+          },
+          room
+        ),
         valueAdjustments: applyPriceEvents(
           valueAdjustments,
           priceCrashes,
@@ -972,7 +978,13 @@ export default class Farmhand extends Component {
           // room.
           const peerRoom =
             this.state.peerRoom ||
-            joinRoom({ appId: process.env.REACT_APP_NAME }, room)
+            joinRoom(
+              {
+                appId: process.env.REACT_APP_NAME,
+                rtcConfig,
+              },
+              room
+            )
 
           this.setState(({ money }) => ({
             activePlayers,
@@ -1313,6 +1325,7 @@ export default class Farmhand extends Component {
                     className: 'sidebar-wrapper',
                     open: gameState.isMenuOpen,
                     variant: 'persistent',
+                    role: 'complementary',
                     PaperProps: {
                       className: 'sidebar',
                     },
