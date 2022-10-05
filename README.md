@@ -69,12 +69,12 @@ In your shell, run this to ensure you're using the correct Node version and inst
 
 ```sh
 nvm i
-npm ci
+npm ci --legacy-peer-deps
 ```
 
-If `npm ci` errors out due to PhantomJS installation errors (this has been seen in some WSL/Linux environments), try `npm_config_tmp=/tmp npm ci` instead. [See this related comment](https://github.com/yarnpkg/yarn/issues/1016#issuecomment-283067214). Alternatively, try `npm ci --no-optional`.
+If `npm ci --legacy-peer-deps` errors out due to PhantomJS installation errors (this has been seen in some WSL/Linux environments), try `npm_config_tmp=/tmp npm ci` instead. [See this related comment](https://github.com/yarnpkg/yarn/issues/1016#issuecomment-283067214). Alternatively, try `npm ci --no-optional --legacy-peer-deps`.
 
-To run the game locally with the API and Redis database, run:
+To run the game locally with the API, Redis database, and peer pairing server, run:
 
 ```sh
 npm run dev
@@ -92,7 +92,7 @@ Note that you will need a Vercel account and be logged into locally for this to 
 npm start
 ```
 
-In this case, the local app will be using the Production API and database. However you boot, Farmhand will be accessible from http://localhost:3000/.
+In this case, the local app will be using the Production API, database, and pairing server. However you boot, Farmhand will be accessible from http://localhost:3000/.
 
 ### Coding conventions
 
