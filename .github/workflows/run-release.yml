@@ -20,6 +20,11 @@ jobs:
           persist-credentials: true
           ref: develop
 
+      # https://stackoverflow.com/a/69634516
+      - name: Reconfigure git to use HTTP authentication
+        run: >
+          git config --global url."https://github.com/".insteadOf ssh://git@github.com/
+
       - name: Setup Git user
         uses: fregante/setup-git-user@v1
 
@@ -123,6 +128,10 @@ jobs:
           fetch-depth: 0
           persist-credentials: true
           ref: main
+      # https://stackoverflow.com/a/69634516
+      - name: Reconfigure git to use HTTP authentication
+        run: >
+          git config --global url."https://github.com/".insteadOf ssh://git@github.com/
       - uses: actions/setup-node@v1
         with:
           node-version: 14
