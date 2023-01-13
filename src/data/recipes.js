@@ -57,6 +57,34 @@ export const butter = itemify({
 })
 
 /**
+ * @property farmhand.module:recipes.sunButter
+ * @type {farmhand.recipe}
+ */
+export const sunButter = itemify({
+  id: 'sun-butter',
+  name: 'Sun Butter',
+  ingredients: {
+    [items.sunflower.id]: 25,
+  },
+  condition: state => state.itemsSold[items.sunflower.id] >= 200,
+  recipeType: recipeType.KITCHEN,
+})
+
+/*
+ * @property farmhand.module:recipes.oliveOil
+ * @type {farmhand.recipe}
+ */
+export const oliveOil = itemify({
+  id: 'olive-oil',
+  name: 'Olive Oil',
+  ingredients: {
+    [items.olive.id]: 250,
+  },
+  condition: state => state.itemsSold[items.olive.id] >= 500,
+  recipeType: recipeType.KITCHEN,
+})
+
+/**
  * @property farmhand.module:recipes.cheese
  * @type {farmhand.recipe}
  */
@@ -323,6 +351,36 @@ export const spicyCheese = itemify({
 })
 
 /**
+ * @property farmhand.module:recipes.vegetableOil
+ * @type {farmhand.recipe}
+ */
+export const vegetableOil = itemify({
+  id: 'vegetable-oil',
+  name: 'Vegetable Oil',
+  ingredients: {
+    [items.soybean.id]: 350,
+  },
+  condition: state => state.itemsSold[items.soybean.id] >= 900,
+  recipeType: recipeType.KITCHEN,
+})
+
+/**
+ * @property farmhand.module:recipes.friedTofu
+ * @type {farmhand.recipe}
+ */
+export const friedTofu = itemify({
+  id: 'fried-tofu',
+  name: 'Deep Fried Tofu',
+  ingredients: {
+    [tofu.id]: 1,
+    [vegetableOil.id]: 2,
+  },
+  condition: state =>
+    state.itemsSold[tofu.id] >= 50 && state.itemsSold[vegetableOil.id] >= 50,
+  recipeType: recipeType.KITCHEN,
+})
+
+/**
  * @property farmhand.module:recipes.spicyPickledGarlic
  * @type {farmhand.recipe}
  */
@@ -349,10 +407,30 @@ export const garlicFries = itemify({
   ingredients: {
     [items.potato.id]: 5,
     [items.garlic.id]: 3,
+    [vegetableOil.id]: 1,
   },
   condition: state =>
     state.itemsSold[items.potato.id] >= 50 &&
     state.itemsSold[items.garlic.id] >= 30,
+  recipeType: recipeType.KITCHEN,
+})
+
+/**
+ * @property farmhand.module:recipes.garlicBread
+ * @type {farmhand.recipe}
+ */
+export const garlicBread = itemify({
+  id: 'garlic-bread',
+  name: 'Garlic Bread',
+  ingredients: {
+    [bread.id]: 1,
+    [items.garlic.id]: 5,
+    [oliveOil.id]: 1,
+  },
+  condition: state =>
+    state.itemsSold[bread.id] >= 30 &&
+    state.itemsSold[oliveOil.id] >= 20 &&
+    state.itemsSold[items.garlic.id] >= 50,
   recipeType: recipeType.KITCHEN,
 })
 
@@ -402,6 +480,61 @@ export const pumpkinPie = itemify({
     state.itemsSold[items.pumpkin.id] >= 200 &&
     state.itemsSold[items.wheat.id] >= 250 &&
     state.itemsSold[butter.id] >= 75,
+  recipeType: recipeType.KITCHEN,
+})
+
+/**
+ * @property farmhand.module:recipes.sweetPotatoPie
+ * @type {farmhand.recipe}
+ */
+export const sweetPotatoPie = itemify({
+  id: 'sweet-potato-pie',
+  name: 'Sweet Potato Pie',
+  ingredients: {
+    [items.sweetPotato.id]: 6,
+    [items.wheat.id]: 10,
+    [butter.id]: 2,
+  },
+  condition: state =>
+    state.itemsSold[items.sweetPotato.id] >= 200 &&
+    state.itemsSold[items.wheat.id] >= 250 &&
+    state.itemsSold[butter.id] >= 75,
+  recipeType: recipeType.KITCHEN,
+})
+
+/**
+ * @property farmhand.module:recipes.sweetPotatoFries
+ * @type {farmhand.recipe}
+ */
+export const sweetPotatoFries = itemify({
+  id: 'sweet-potato-fries',
+  name: 'Sweet Potato Fries',
+  ingredients: {
+    [items.sweetPotato.id]: 10,
+    [vegetableOil.id]: 1,
+  },
+  condition: state => state.itemsSold[items.sweetPotato.id] >= 100,
+  recipeType: recipeType.KITCHEN,
+})
+
+/**
+ * @property farmhand.module:recipes.onionRings
+ * @type {farmhand.recipe}
+ */
+export const onionRings = itemify({
+  id: 'onion-rings',
+  name: 'Onion Rings',
+  ingredients: {
+    [items.onion.id]: 1,
+    [vegetableOil.id]: 1,
+    [items.wheat.id]: 5,
+    [soyMilk.id]: 1,
+  },
+  condition: state =>
+    state.itemsSold[items.onion.id] >= 50 &&
+    state.itemsSold[vegetableOil.id] > 20 &&
+    state.itemsSold[soyMilk.id] > 20 &&
+    state.itemsSold[items.wheat.id] > 30,
   recipeType: recipeType.KITCHEN,
 })
 

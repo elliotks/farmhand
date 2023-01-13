@@ -12,8 +12,10 @@ import carrotSoup from './dishes/carrot-soup.png'
 import cheese from './dishes/cheese.png'
 import chicknPotPie from './dishes/chickn-pot-pie.png'
 import chocolate from './dishes/chocolate.png'
+import garlicBread from './dishes/garlic-bread.png'
 import garlicFries from './dishes/garlic-fries.png'
 import frenchOnionSoup from './dishes/french-onion-soup.png'
+import friedTofu from './dishes/fried-tofu.png'
 import jackolantern from './items/jackolantern.png'
 import hotSauce from './dishes/hot-sauce.png'
 import rainbowCheese from './dishes/rainbow-cheese.png'
@@ -21,13 +23,19 @@ import salsa from './dishes/salsa.png'
 import soyMilk from './dishes/soy-milk.png'
 import spicyCheese from './dishes/spicy-cheese.png'
 import spicyPickledGarlic from './dishes/spicy-pickled-garlic.png'
+import sunButter from './dishes/sun-butter.png'
 import chocolateSoyMilk from './dishes/chocolate-soy-milk.png'
+import oliveOil from './dishes/olive-oil.png'
+import onionRings from './dishes/onion-rings.png'
 import popcorn from './dishes/popcorn.png'
 import pumpkinPie from './dishes/pumpkin-pie.png'
 import summerSalad from './dishes/summer-salad.png'
+import sweetPotatoFries from './dishes/sweet-potato-fries.png'
+import sweetPotatoPie from './dishes/sweet-potato-pie.png'
 import spaghetti from './dishes/spaghetti.png'
 import strawberryJam from './dishes/strawberry-jam.png'
 import tofu from './dishes/tofu.png'
+import vegetableOil from './dishes/vegetable-oil.png'
 
 // Crops
 import asparagus from './items/asparagus.png'
@@ -61,12 +69,21 @@ import cornSeed from './items/corn-seed.png'
 import potato from './items/potato.png'
 import potatoGrowing from './items/potato-growing.png'
 import potatoSeed from './items/potato-seed.png'
+import sweetPotato from './items/sweet-potato.png'
+import sweetPotatoGrowing from './items/sweet-potato-growing.png'
+import sweetPotatoSeed from './items/sweet-potato-seed.png'
+import olive from './items/olive.png'
+import oliveGrowing from './items/olive-growing.png'
+import oliveSeed from './items/olive-seed.png'
 import onion from './items/onion.png'
 import onionGrowing from './items/onion-growing.png'
 import onionSeed from './items/onion-seed.png'
 import soybean from './items/soybean.png'
 import soybeanGrowing from './items/soybean-growing.png'
 import soybeanSeed from './items/soybean-seed.png'
+import sunflower from './items/sunflower.png'
+import sunflowerGrowing from './items/sunflower-growing.png'
+import sunflowerSeed from './items/sunflower-seed.png'
 import watermelon from './items/watermelon.png'
 import watermelonGrowing from './items/watermelon-growing.png'
 import watermelonSeed from './items/watermelon-seed.png'
@@ -177,9 +194,13 @@ export const craftedItems = {
   butter,
   fertilizer,
   'french-onion-soup': frenchOnionSoup,
+  'fried-tofu': friedTofu,
+  'garlic-bread': garlicBread,
   'garlic-fries': garlicFries,
   jackolantern,
   'hot-sauce': hotSauce,
+  'olive-oil': oliveOil,
+  'onion-rings': onionRings,
   popcorn,
   'pumpkin-pie': pumpkinPie,
   rainbowCheese,
@@ -190,7 +211,11 @@ export const craftedItems = {
   spaghetti,
   'strawberry-jam': strawberryJam,
   'summer-salad': summerSalad,
+  'sun-butter': sunButter,
+  'sweet-potato-fries': sweetPotatoFries,
+  'sweet-potato-pie': sweetPotatoPie,
   tofu,
+  'vegetable-oil': vegetableOil,
   ...smeltedItems,
 }
 
@@ -223,12 +248,18 @@ export const items = {
   potato,
   'potato-growing': potatoGrowing,
   'potato-seed': potatoSeed,
+  olive,
+  'olive-growing': oliveGrowing,
+  'olive-seed': oliveSeed,
   onion,
   'onion-growing': onionGrowing,
   'onion-seed': onionSeed,
   soybean,
   'soybean-growing': soybeanGrowing,
   'soybean-seed': soybeanSeed,
+  'sweet-potato': sweetPotato,
+  'sweet-potato-growing': sweetPotatoGrowing,
+  'sweet-potato-seed': sweetPotatoSeed,
   wheat,
   'wheat-growing': wheatGrowing,
   'wheat-seed': wheatSeed,
@@ -238,6 +269,9 @@ export const items = {
   strawberry,
   'strawberry-growing': strawberryGrowing,
   'strawberry-seed': strawberrySeed,
+  sunflower,
+  'sunflower-growing': sunflowerGrowing,
+  'sunflower-seed': sunflowerSeed,
   watermelon,
   'watermelon-growing': watermelonGrowing,
   'watermelon-seed': watermelonSeed,
