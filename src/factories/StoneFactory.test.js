@@ -1,10 +1,11 @@
-import { coal, stone } from '../data/ores'
-
-import { isRandomNumberLessThan } from '../utils'
+import { randomNumberService } from '../common/services/randomNumber'
+import { coal, stone, saltRock } from '../data/ores'
 
 import StoneFactory from './StoneFactory'
 
-jest.mock('../utils/isRandomNumberLessThan')
+beforeEach(() => {
+  jest.spyOn(randomNumberService, 'isRandomNumberLessThan')
+})
 
 describe('StoneFactory', () => {
   describe('generate', () => {
@@ -14,17 +15,15 @@ describe('StoneFactory', () => {
       stoneFactory = new StoneFactory()
     })
 
-    test('it generates stones', () => {
+    test('it generates resources', () => {
+      randomNumberService.isRandomNumberLessThan.mockReturnValue(true)
+
       const resources = stoneFactory.generate()
 
-      expect(resources[0]).toEqual(stone)
-    })
-
-    test('it generates a coal along with the stone when random chance passes', () => {
-      isRandomNumberLessThan.mockReturnValue(true)
-      const resources = stoneFactory.generate()
-
-      expect(resources).toEqual([stone, coal])
+      expect(resources).toHaveLength(3)
+      expect(resources).toContain(stone)
+      expect(resources).toContain(saltRock)
+      expect(resources).toContain(coal)
     })
   })
 })

@@ -29,6 +29,13 @@
  * @property {boolean} [isReplantable]
  * @property {number} [quantity] How many of the item the player has.
  * @property {number} [tier] The value tier that the item belongs to.
+ * @property {number?} [spawnChance] The respawn rate for the item.
+ */
+
+/**
+ * @typedef farmhand.cropVariety
+ * @type {farmhand.item}
+ * @property {string} imageId
  */
 
 /**

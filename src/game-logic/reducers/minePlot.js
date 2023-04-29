@@ -8,6 +8,8 @@ import { addItemToInventory } from './addItemToInventory'
 import { showNotification } from './showNotification'
 import { modifyFieldPlotAt } from './modifyFieldPlotAt'
 
+const daysUntilClearPeriods = [1, 2, 2, 3]
+
 /**
  * @param {farmhand.state} state
  * @param {number} x
@@ -31,29 +33,28 @@ export const minePlot = (state, x, y) => {
   const spawnedResources = ResourceFactory.instance().generateResources(
     shovelLevel
   )
-  let spawnedOre = null
-  let daysUntilClear = chooseRandom([1, 2, 2, 3])
+  const [spawnedResource] = spawnedResources
+  let daysUntilClear = chooseRandom(daysUntilClearPeriods)
 
-  if (spawnedResources.length) {
-    // even when multiple resources are spawned, the first one is ok to use
-    // for all subsequent logic
-    spawnedOre = spawnedResources[0]
+  if (spawnedResource) {
+    const spawnChances = spawnedResources.map(({ spawnChance }) => spawnChance)
+    const minSpawnChance = Math.min(...spawnChances)
 
-    // if ore was spawned, add up to 10 days to the time to clear
-    // at random, based loosely on the spawnChance meant to make
-    // rarer ores take longer to cooldown
-    daysUntilClear += Math.round(random() * (1 - spawnedOre.spawnChance) * 10)
+    // if a resource was spawned, add up to 10 days to the time to clear at
+    // random, based loosely on the minimum spawnChance meant to make rarer
+    // resources take longer to cooldown
+    daysUntilClear += Math.round(random() * (1 - minSpawnChance) * 10)
+  }
 
-    for (let resource of spawnedResources) {
-      state = addItemToInventory(state, resource)
-    }
+  for (let resource of spawnedResources) {
+    state = addItemToInventory(state, resource)
   }
 
   state = modifyFieldPlotAt(state, x, y, () => {
     return {
       isShoveled: true,
       daysUntilClear,
-      oreId: spawnedOre ? spawnedOre.id : null,
+      oreId: spawnedResource?.id ?? null,
     }
   })
 

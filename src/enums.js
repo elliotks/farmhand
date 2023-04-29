@@ -41,7 +41,12 @@ export const cropType = enumify([
  * @property farmhand.module:enums.recipeType
  * @enum {string}
  */
-export const recipeType = enumify(['FORGE', 'KITCHEN', 'RECYCLING'])
+export const recipeType = enumify([
+  'FERMENTATION',
+  'FORGE',
+  'KITCHEN',
+  'RECYCLING',
+])
 
 /**
  * @property farmhand.module:enums.fieldMode
@@ -71,6 +76,7 @@ export const stageFocusType = enumify([
   'COW_PEN',
   'INVENTORY',
   'WORKSHOP',
+  'CELLAR',
 ])
 
 /**
