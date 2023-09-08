@@ -5,22 +5,16 @@
  */
 
 import { itemsMap } from '../../data/maps'
-import {
-  castToMoney,
-  farmProductsSold,
-  getSalePriceMultiplier,
-  levelAchieved,
-  moneyTotal,
-} from '../../utils'
-import { LOAN_GARNISHMENT_RATE } from '../../constants'
+import { castToMoney, getSalePriceMultiplier, moneyTotal } from '../../utils'
+import { EXPERIENCE_VALUES, LOAN_GARNISHMENT_RATE } from '../../constants'
 import { SOLD_FERMENTED_ITEM_PEER_NOTIFICATION } from '../../templates'
 import { getKegValue } from '../../utils/getKegValue'
 
-import { processLevelUp } from './processLevelUp'
+import { addExperience } from './addExperience'
 import { addRevenue } from './addRevenue'
-import { updateLearnedRecipes } from './updateLearnedRecipes'
 import { adjustLoan } from './adjustLoan'
 import { removeKegFromCellar } from './removeKegFromCellar'
+import { updateLearnedRecipes } from './updateLearnedRecipes'
 
 import { prependPendingPeerMessage } from './index'
 
@@ -38,7 +32,6 @@ export const sellKeg = (state, keg) => {
     itemsSold,
     money: initialMoney,
   } = state
-  const oldLevel = levelAchieved(farmProductsSold(itemsSold))
 
   let { loanBalance } = state
   let saleValue = 0
@@ -79,8 +72,7 @@ export const sellKeg = (state, keg) => {
   // money needs to be passed in explicitly here because state.money gets
   // mutated above and addRevenue needs its initial value.
   state = addRevenue({ ...state, money: initialMoney }, saleValue)
-
-  state = processLevelUp(state, oldLevel)
+  state = addExperience(state, EXPERIENCE_VALUES.KEG_SOLD)
   state = removeKegFromCellar(state, keg.id)
 
   // NOTE: This notification will need to be revisited to support Wine sales.

@@ -1,20 +1,20 @@
 import { itemsMap } from '../../data/maps'
+import { isItemAFarmProduct } from '../../utils/isItemAFarmProduct'
+import { levelAchieved } from '../../utils/levelAchieved'
 import {
   castToMoney,
-  farmProductsSold,
   getAdjustedItemValue,
   getResaleValue,
   getSalePriceMultiplier,
-  isItemAFarmProduct,
   isItemSoldInShop,
-  levelAchieved,
   moneyTotal,
 } from '../../utils'
-import { LOAN_GARNISHMENT_RATE } from '../../constants'
+import { LOAN_GARNISHMENT_RATE, EXPERIENCE_VALUES } from '../../constants'
 import { SOLD_ITEM_PEER_NOTIFICATION } from '../../templates'
 
 import { decrementItemFromInventory } from './decrementItemFromInventory'
 import { processLevelUp } from './processLevelUp'
+import { addExperience } from './addExperience'
 import { addRevenue } from './addRevenue'
 import { updateLearnedRecipes } from './updateLearnedRecipes'
 import { adjustLoan } from './adjustLoan'
@@ -35,11 +35,12 @@ export const sellItem = (state, { id }, howMany = 1) => {
   const item = itemsMap[id]
   const {
     completedAchievements,
+    experience,
     itemsSold,
     money: initialMoney,
     valueAdjustments,
   } = state
-  const oldLevel = levelAchieved(farmProductsSold(itemsSold))
+  const oldLevel = levelAchieved(experience)
   let { loanBalance } = state
 
   const adjustedItemValue = isItemSoldInShop(item)
@@ -47,7 +48,9 @@ export const sellItem = (state, { id }, howMany = 1) => {
     : getAdjustedItemValue(valueAdjustments, id)
 
   const saleIsGarnished = isItemAFarmProduct(item)
-  let saleValue = 0
+  let saleValue = 0,
+    experienceGained = 0,
+    salePriceMultiplier = 1
 
   for (let i = 0; i < howMany; i++) {
     const loanGarnishment = saleIsGarnished
@@ -57,9 +60,10 @@ export const sellItem = (state, { id }, howMany = 1) => {
         )
       : 0
 
-    const salePriceMultiplier = isItemAFarmProduct(item)
-      ? getSalePriceMultiplier(completedAchievements)
-      : 1
+    if (isItemAFarmProduct(item)) {
+      salePriceMultiplier = getSalePriceMultiplier(completedAchievements)
+      experienceGained += EXPERIENCE_VALUES.ITEM_SOLD
+    }
 
     const garnishedProfit =
       adjustedItemValue * salePriceMultiplier - loanGarnishment
@@ -81,6 +85,8 @@ export const sellItem = (state, { id }, howMany = 1) => {
     // mutated above and addRevenue needs its initial value.
     state = addRevenue({ ...state, money: initialMoney }, saleValue)
   }
+
+  state = addExperience(state, experienceGained)
 
   state = {
     ...state,

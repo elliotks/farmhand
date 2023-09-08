@@ -56,17 +56,16 @@ import NotificationSystem, {
 } from '../NotificationSystem'
 import DebugMenu from '../DebugMenu'
 import theme from '../../mui-theme'
+import { levelAchieved } from '../../utils/levelAchieved'
 import {
   computeMarketPositions,
   createNewField,
   doesMenuObstructStage,
-  farmProductsSold,
   generateCow,
   getAvailableShopInventory,
   getItemCurrentValue,
   getPeerMetadata,
   inventorySpaceRemaining,
-  levelAchieved,
   moneyTotal,
   nullArray,
   reduceByPersistedKeys,
@@ -208,14 +207,15 @@ const applyPriceEvents = (valueAdjustments, priceCrashes, priceSurges) => {
  * totals of crops harvested. Keys are crop type IDs, values are the number of
  * that crop harvested.
  * @property {number} dayCount
+ * @property {number} experience
  * @property {string} farmName
- * @property {boolean} hasBooted
  * @property {(?farmhand.plotContent)[][]} field
  * @property {farmhand.fieldMode} fieldMode
  * @property {Function?} getCowAccept https://github.com/dmotz/trystero#receiver
  * @property {Function?} getCowReject https://github.com/dmotz/trystero#receiver
  * @property {Function?} getCowTradeRequest https://github.com/dmotz/trystero#receiver
  * @property {Function?} getPeerMetadata https://github.com/dmotz/trystero#receiver
+ * @property {boolean} hasBooted
  * @property {number?} heartbeatTimeoutId
  * @property {Array.<number>} historicalDailyLosses
  * @property {Array.<number>} historicalDailyRevenue
@@ -380,9 +380,7 @@ export default class Farmhand extends FarmhandReducers {
   }
 
   get levelEntitlements() {
-    return getLevelEntitlements(
-      levelAchieved(farmProductsSold(this.state.itemsSold))
-    )
+    return getLevelEntitlements(levelAchieved(this.state.experience))
   }
 
   get shopInventory() {
@@ -425,6 +423,7 @@ export default class Farmhand extends FarmhandReducers {
       cowTradeTimeoutId: -1,
       cropsHarvested: {},
       dayCount: 0,
+      experience: 0,
       farmName: 'Unnamed',
       field: createNewField(),
       fieldMode: OBSERVE,
@@ -500,6 +499,14 @@ export default class Farmhand extends FarmhandReducers {
       valueAdjustments: {},
       version: process.env.REACT_APP_VERSION ?? '',
     }
+  }
+
+  async initializeNewGame() {
+    await this.incrementDay(true)
+    this.setState(() => ({
+      historicalValueAdjustments: [],
+    }))
+    this.showNotification(LOAN_INCREASED`${STANDARD_LOAN_AMOUNT}`, 'info')
   }
 
   initInputHandlers() {
@@ -601,10 +608,7 @@ export default class Farmhand extends FarmhandReducers {
         })
       })
     } else {
-      // Initialize new game
-      await this.incrementDay(true)
-      this.setState(() => ({ historicalValueAdjustments: [] }))
-      this.showNotification(LOAN_INCREASED`${STANDARD_LOAN_AMOUNT}`, 'info')
+      await this.initializeNewGame()
     }
 
     this.syncToRoom().catch(errorCode => this.handleRoomSyncError(errorCode))
